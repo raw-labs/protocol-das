@@ -1,0 +1,27 @@
+/**
+ * Copyright 2024 RAW Labs S.A.
+ * All rights reserved.
+ *
+ * This source code is the property of RAW Labs S.A. It contains
+ * proprietary and confidential information that is protected by applicable
+ * intellectual property and other laws. Unauthorized use, reproduction,
+ * or distribution of this code, or any portion of it, may result in severe
+ * civil and criminal penalties and will be prosecuted to the maximum
+ * extent possible under the law.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das;
+
+message DASId {
+    string id = 1;
+}
+
+message DASDefinition {
+    string type = 1;
+    map<string, string> options = 2;
+}

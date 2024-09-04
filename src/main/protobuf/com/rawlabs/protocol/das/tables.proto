@@ -1,0 +1,106 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das;
+
+import "com/rawlabs/protocol/raw/values.proto";
+import "com/rawlabs/protocol/raw/types.proto";
+
+message TableId {
+    string name = 1;
+}
+
+message TableDefinition {
+    TableId tableId = 1;
+    optional string description = 2;
+    repeated ColumnDefinition columns = 3;
+    optional int32 startupCost = 4;
+}
+
+message ColumnDefinition {
+    string name = 1;
+    optional string description = 2;
+    com.rawlabs.protocol.raw.Type type = 3;
+}
+
+message Rows {
+    repeated Row rows = 1;
+}
+
+message Row {
+    map<string, com.rawlabs.protocol.raw.Value> data = 1;
+}
+
+
+message Qual {
+    string fieldName = 1;
+    oneof qual {
+        SimpleQual simpleQual = 2;
+        ListQual listQual = 3;
+    }
+}
+
+message SimpleQual {
+    Operator operator = 1;
+    com.rawlabs.protocol.raw.Value value = 2;
+}
+
+message ListQual {
+    bool isAny = 1; // If true, it represents an ANY, otherwise it represents an ALL
+    repeated com.rawlabs.protocol.raw.Value values = 2;
+}
+
+message Operator {
+    oneof operator {
+        Equals equals = 1;
+        NotEquals notEquals = 2;
+        LessThan lessThan = 3;
+        LessThanOrEqual lessThanOrEqual = 4;
+        GreaterThan greaterThan = 5;
+        GreaterThanOrEqual greaterThanOrEqual = 6;
+    }
+}
+
+message Equals {
+}
+
+message NotEquals {
+}
+
+message LessThan {
+}
+
+message LessThanOrEqual {
+}
+
+message GreaterThan {
+}
+
+message GreaterThanOrEqual {
+}
+
+message SortKeys {
+    repeated SortKey sortKeys = 1;
+}
+
+message SortKey {
+    string name = 1;
+    int32 pos = 2;
+    bool isReversed = 3;
+    bool nullsFirst = 4;
+    string collate = 5;
+}

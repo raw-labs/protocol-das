@@ -2,7 +2,6 @@ import sbt._
 import sbt.Keys._
 
 ThisBuild / scalaVersion := "2.12.18"
-ThisBuild / javacOptions ++= Seq("-source","21","-target","21"),
 
 ThisBuild / homepage := Some(url("https://www.raw-labs.com/"))
 ThisBuild / organization := "com.raw-labs"

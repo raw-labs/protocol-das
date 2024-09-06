@@ -18,6 +18,8 @@ ThisBuild / updateOptions := updateOptions.in(Global).value.withCachedResolution
 ThisBuild / resolvers ++= Seq(Resolver.mavenLocal)
 ThisBuild / resolvers += "GHR snapi repo" at "https://maven.pkg.github.com/raw-labs/snapi"
 
+ThisBuild / scalaVersion := "2.12.18"
+
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / publish / skip := false
 ThisBuild / publishMavenStyle := true

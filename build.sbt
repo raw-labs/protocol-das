@@ -1,7 +1,12 @@
-import sbt.Keys._
 import sbt._
+import sbt.Keys._
 
-import java.nio.file.Paths
+ThisBuild / scalaVersion := "2.12.18"
+
+ThisBuild / homepage := Some(url("https://www.raw-labs.com/"))
+ThisBuild / organization := "com.raw-labs"
+ThisBuild / organizationName := "RAW Labs SA"
+ThisBuild / organizationHomepage := Some(url("https://www.raw-labs.com/"))
 
 ThisBuild / credentials += Credentials(
   "GitHub Package Registry",
@@ -9,25 +14,11 @@ ThisBuild / credentials += Credentials(
   "raw-labs",
   sys.env.getOrElse("GITHUB_TOKEN", "")
 )
-
-ThisBuild / homepage := Some(url("https://www.raw-labs.com/"))
-ThisBuild / organization := "com.raw-labs"
-ThisBuild / organizationName := "RAW Labs SA"
-ThisBuild / organizationHomepage := Some(url("https://www.raw-labs.com/"))
 ThisBuild / updateOptions := updateOptions.in(Global).value.withCachedResolution(true)
 ThisBuild / resolvers ++= Seq(Resolver.mavenLocal)
 ThisBuild / resolvers += "GHR snapi repo" at "https://maven.pkg.github.com/raw-labs/snapi"
 
-ThisBuild / scalaVersion := "2.12.18"
-ThisBuild / javacOptions ++= Seq(
-              "-source",
-              "21",
-              "-target",
-              "21"
-            )
 
-ThisBuild / versionScheme := Some("early-semver")
-ThisBuild / publish / skip := false
 ThisBuild / publishMavenStyle := true
 ThisBuild / publishTo := Some("GitHub raw-labs Apache Maven Packages" at "https://maven.pkg.github.com/raw-labs/protocol-das")
 
@@ -35,6 +26,8 @@ lazy val root = (project in file("."))
   .enablePlugins(ProtobufPlugin)
   .settings(
     name := "protocol-das",
+    versionScheme := Some("early-semver")
+    javacOptions ++= Seq("-source","21","-target","21"),
     protobufGrpcEnabled := true,
     // Set fixed versions
     ProtobufConfig / version := "3.25.4",

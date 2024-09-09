@@ -27,6 +27,12 @@ lazy val root = (project in file("."))
   .settings(
     name := "protocol-das",
     protobufGrpcEnabled := true,
+    javacOptions ++= Seq(
+      "-source",
+      "21",
+      "-target",
+      "21"
+    ),
     // Set fixed versions
     ProtobufConfig / version := "3.25.4",
     ProtobufConfig / protobufGrpcVersion := "1.62.2",

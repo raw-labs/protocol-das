@@ -3,3 +3,4 @@
 .git/
 .vscode/
 target/
+.bsp/

@@ -33,6 +33,9 @@ lazy val root = (project in file("."))
       "-target",
       "21"
     ),
+    Compile / doc / sources := Seq.empty,
+    Compile / packageDoc / mappings := Seq(),
+    Compile / packageDoc / publishArtifact := false,
     // Set fixed versions
     ProtobufConfig / version := "3.25.4",
     ProtobufConfig / protobufGrpcVersion := "1.62.2",

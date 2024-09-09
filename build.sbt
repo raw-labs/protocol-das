@@ -110,6 +110,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "protocol-das",
     strictBuildSettings,
+    publishSettings,
     protobufGrpcEnabled := true,
     // Set fixed versions
     ProtobufConfig / version := "3.25.4",

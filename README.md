@@ -1,4 +1,5 @@
 # DAS Protocol
+[![License](https://img.shields.io/:license-BSL%201.1-blue.svg)](https://github.com/raw-labs/protocol-das/blob/main/licenses/BSL.txt)
 
 This repository contains the protobuf definitions and gRPC service interfaces for the Data Access Service (DAS) used by RAW Labs. The protocol defines a set of services and message types that allow querying, modifying, and managing data across various data sources via gRPC.
 

@@ -26,6 +26,7 @@ service RegistrationService {
 
 message RegisterRequest {
     DASDefinition definition = 1;
+    optional DASId id = 2;
 }
 
 message UnregisterResponse {

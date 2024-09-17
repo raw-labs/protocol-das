@@ -1,0 +1,36 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.services";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.services;
+
+service HealthCheckService {
+  rpc Check (HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+message HealthCheckRequest {
+}
+
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0; // Unknown status.
+    SERVING = 1; // The service is up and running.
+    NOT_SERVING = 2; // The service is down.
+  }
+
+  ServingStatus status = 1; // The status of the service.
+  optional string description = 2; // An optional description of the status.
+}

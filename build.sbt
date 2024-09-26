@@ -111,7 +111,7 @@ lazy val root = (project in file("."))
     publishSettings,
     protobufGrpcEnabled := true,
     // Set fixed versions
-    ProtobufConfig / version := "3.25.4",
+    ProtobufConfig / version := "3.25.5",
     ProtobufConfig / protobufGrpcVersion := "1.62.2",
     libraryDependencies ++= Seq(
       "com.raw-labs" %% "protocol-raw" % "0.39.0" % "compile->compile;test->test",

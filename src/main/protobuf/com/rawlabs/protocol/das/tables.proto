@@ -62,6 +62,7 @@ message SimpleQual {
 message ListQual {
     bool isAny = 1; // If true, it represents an ANY, otherwise it represents an ALL
     repeated com.rawlabs.protocol.raw.Value values = 2;
+    Operator operator = 3;
 }
 
 message Operator {

@@ -17,17 +17,20 @@ option java_multiple_files = true;
 
 package com.rawlabs.protocol.das.services;
 
-import "com/rawlabs/protocol/das/das.proto";
-
-service RegistrationService {
-    rpc Register (RegisterRequest) returns (DASId);
-    rpc Unregister (DASId) returns (UnregisterResponse);
+service HealthCheckService {
+  rpc Check (HealthCheckRequest) returns (HealthCheckResponse);
 }
 
-message RegisterRequest {
-    DASDefinition definition = 1;
-    optional DASId id = 2;
+message HealthCheckRequest {
 }
 
-message UnregisterResponse {
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0; // Unknown status.
+    SERVING = 1; // The service is up and running.
+    NOT_SERVING = 2; // The service is down.
+  }
+
+  ServingStatus status = 1; // The status of the service.
+  optional string description = 2; // An optional description of the status.
 }

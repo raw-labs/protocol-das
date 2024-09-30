@@ -10,8 +10,6 @@ ThisBuild / credentials += Credentials(
   sys.env.getOrElse("GITHUB_TOKEN", "")
 )
 
-val isRelease = sys.props.getOrElse("release", "false").toBoolean
-
 lazy val commonSettings = Seq(
   homepage := Some(url("https://www.raw-labs.com/")),
   organization := "com.raw-labs",
@@ -28,7 +26,6 @@ lazy val commonSettings = Seq(
 
 lazy val buildSettings = Seq(
   scalaVersion := "2.12.18",
-  isSnapshot := !isRelease,
   javacOptions ++= Seq(
     "-source",
     "21",

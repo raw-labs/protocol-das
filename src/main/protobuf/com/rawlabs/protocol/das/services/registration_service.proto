@@ -17,16 +17,38 @@ option java_multiple_files = true;
 
 package com.rawlabs.protocol.das.services;
 
+import "com/rawlabs/protocol/raw/types.proto";
 import "com/rawlabs/protocol/das/das.proto";
+import "com/rawlabs/protocol/das/operators.proto";
 
 service RegistrationService {
     rpc Register (RegisterRequest) returns (DASId);
+
+    rpc OperationsSupported (DASId) returns (OperationsSupportedResponse);
+
     rpc Unregister (DASId) returns (UnregisterResponse);
 }
 
 message RegisterRequest {
     DASDefinition definition = 1;
     optional DASId id = 2;
+}
+
+message OperationsSupportedResponse {
+    bool sqlSupported = 1;
+    repeated FunctionSupported functionsSupported = 2;
+    repeated OperatorSupported operatorsSupported = 3;
+}
+
+message FunctionSupported {
+    string name = 1;
+    repeated com.rawlabs.protocol.raw.Type parameters = 2;
+}
+
+message OperatorSupported {
+    Operator operator = 1;
+    com.rawlabs.protocol.raw.Type lhs = 2;
+    com.rawlabs.protocol.raw.Type rhs = 3;
 }
 
 message UnregisterResponse {

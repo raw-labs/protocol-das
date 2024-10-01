@@ -19,11 +19,10 @@ package com.rawlabs.protocol.das.services;
 
 import "com/rawlabs/protocol/das/das.proto";
 import "com/rawlabs/protocol/das/tables.proto";
-import "com/rawlabs/protocol/raw/values.proto";
+import "com/rawlabs/protocol/das/aggs.proto";
+import "com/rawlabs/protocol/das/quals.proto";
 
-service TablesService {
-
-    rpc GetDefinitions (GetDefinitionsRequest) returns (GetDefinitionsResponse);
+service TableQueryService {
 
     rpc GetRelSize (GetRelSizeRequest) returns (GetRelSizeResponse);
 
@@ -35,26 +34,6 @@ service TablesService {
 
     rpc Execute (ExecuteRequest) returns (stream Rows);
 
-    rpc UniqueColumn (UniqueColumnRequest) returns (UniqueColumnResponse);
-
-    rpc ModifyBatchSize (ModifyBatchSizeRequest) returns (ModifyBatchSizeResponse);
-
-    rpc Insert (InsertRequest) returns (InsertResponse);
-
-    rpc BulkInsert (BulkInsertRequest) returns (BulkInsertResponse);
-
-    rpc Update (UpdateRequest) returns (UpdateResponse);
-
-    rpc Delete (DeleteRequest) returns (DeleteResponse);
-
-}
-
-message GetDefinitionsRequest {
-    DASId dasId = 1;
-}
-
-message GetDefinitionsResponse {
-    repeated TableDefinition definitions = 1;
 }
 
 message GetRelSizeRequest {
@@ -88,19 +67,16 @@ message GetPathKeysResponse {
     repeated PathKey pathKeys = 1;
 }
 
-message PathKey {
-    repeated string keyColumns = 1;
-    uint64 expectedRows = 2;
-}
-
 message ExplainRequest {
     DASId dasId = 1;
     TableId tableId = 2;
     repeated Qual quals = 3;
     repeated string columns = 4;
     optional SortKeys sortKeys = 5;
-    optional uint64 limit = 6;
-    bool verbose = 7;
+    optional Aggs aggs = 6;
+    optional GroupClauses groupClauses = 7;
+    optional uint64 limit = 8;
+    bool verbose = 9;
 }
 
 message ExplainResponse {
@@ -113,64 +89,8 @@ message ExecuteRequest {
     repeated Qual quals = 3;
     repeated string columns = 4;
     optional SortKeys sortKeys = 5;
-    optional uint64 limit = 6;
-    optional string planId = 7;
-}
-
-message UniqueColumnRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-}
-
-message UniqueColumnResponse {
-    string column = 1;
-}
-
-message ModifyBatchSizeRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-}
-
-message ModifyBatchSizeResponse {
-    uint32 size = 1;
-}
-
-message InsertRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-    Row values = 3;
-}
-
-message InsertResponse {
-    Row row = 1;
-}
-
-message BulkInsertRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-    repeated Row values = 3;
-}
-
-message BulkInsertResponse {
-    repeated Row rows = 1;
-}
-
-message UpdateRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-    com.rawlabs.protocol.raw.Value rowId = 3;
-    Row newValues = 4;
-}
-
-message UpdateResponse {
-    Row row = 1;
-}
-
-message DeleteRequest {
-    DASId dasId = 1;
-    TableId tableId = 2;
-    com.rawlabs.protocol.raw.Value rowId = 3;
-}
-
-message DeleteResponse {
+    optional Aggs aggs = 6;
+    optional GroupClauses groupClauses = 7;
+    optional uint64 limit = 8;
+    optional string planId = 9;
 }

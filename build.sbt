@@ -19,7 +19,7 @@ lazy val commonSettings = Seq(
   // http://www.scala-sbt.org/0.13/docs/Cached-Resolution.html
   updateOptions := updateOptions.in(Global).value.withCachedResolution(true),
   resolvers ++= Seq(Resolver.mavenLocal),
-  resolvers += "GHR snapi repo" at "https://maven.pkg.github.com/raw-labs/snapi",
+  resolvers += "raw-labs GHR" at "https://maven.pkg.github.com/raw-labs/_",
   resolvers ++= Resolver.sonatypeOssRepos("snapshots"),
   resolvers ++= Resolver.sonatypeOssRepos("releases")
 )

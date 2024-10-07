@@ -101,6 +101,7 @@ message ExplainRequest {
     optional SortKeys sortKeys = 5;
     optional uint64 limit = 6;
     bool verbose = 7;
+    optional uint64 offset = 8;
 }
 
 message ExplainResponse {
@@ -115,6 +116,7 @@ message ExecuteRequest {
     optional SortKeys sortKeys = 5;
     optional uint64 limit = 6;
     optional string planId = 7;
+    optional uint64 offset = 8;
 }
 
 message UniqueColumnRequest {

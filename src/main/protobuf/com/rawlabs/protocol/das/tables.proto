@@ -42,7 +42,12 @@ message Rows {
 }
 
 message Row {
-    map<string, com.rawlabs.protocol.raw.Value> data = 1;
+    repeated Column columns = 1;
+}
+
+message Column {
+    string name = 1;
+    com.rawlabs.protocol.raw.Value data = 2;
 }
 
 message SortKeys {

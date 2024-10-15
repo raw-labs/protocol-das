@@ -35,9 +35,11 @@ message RegisterRequest {
 }
 
 message OperationsSupportedResponse {
-    bool sqlSupported = 1;
-    repeated FunctionSupported functionsSupported = 2;
-    repeated OperatorSupported operatorsSupported = 3;
+    bool orderBySupported = 1;
+    bool joinSupported = 2;
+    bool aggregationSupported = 3;
+    repeated FunctionSupported functionsSupported = 4;
+    repeated OperatorSupported operatorsSupported = 5;
 }
 
 message FunctionSupported {

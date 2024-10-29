@@ -12,21 +12,22 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das.services";
+option java_package = "com.rawlabs.protocol.das";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das.services;
+package com.rawlabs.protocol.das;
 
-import "com/rawlabs/protocol/das/das.proto";
-import "com/rawlabs/protocol/das/tables.proto";
+import "com/rawlabs/protocol/raw/values.proto";
 
-service SqlService {
-
-  rpc SqlQuery (SqlQueryRequest) returns (stream Rows);
-
+message Rows {
+  repeated Row rows = 1;
 }
 
-message SqlQueryRequest {
-  DASId dasId = 1;
-  string sql = 2;
+message Row {
+  repeated Column columns = 1;
+}
+
+message Column {
+  string name = 1;
+  com.rawlabs.protocol.raw.Value data = 2;
 }

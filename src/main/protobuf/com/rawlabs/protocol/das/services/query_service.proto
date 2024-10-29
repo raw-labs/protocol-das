@@ -18,18 +18,23 @@ option java_multiple_files = true;
 package com.rawlabs.protocol.das.services;
 
 import "com/rawlabs/protocol/das/das.proto";
-import "com/rawlabs/protocol/das/tables.proto";
+import "com/rawlabs/protocol/das/rows.proto";
 
-service TableDefinitionsService {
+service QueryService {
 
-  rpc GetDefinitions (GetDefinitionsRequest) returns (GetDefinitionsResponse);
+  rpc GetQueryEstimate (QueryRequest) returns (GetQueryEstimateResponse);
+
+  rpc ExecuteQuery (QueryRequest) returns (stream Rows);
 
 }
 
-message GetDefinitionsRequest {
+message QueryRequest {
   DASId dasId = 1;
+  string sql = 2;
+  optional string planId = 3;
 }
 
-message GetDefinitionsResponse {
-  repeated TableDefinition definitions = 1;
+message GetQueryEstimateResponse {
+  uint64 rows = 1;
+  uint32 bytes = 2;
 }

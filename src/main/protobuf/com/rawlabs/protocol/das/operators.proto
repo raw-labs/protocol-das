@@ -32,4 +32,11 @@ enum OperatorType {
   NOT_LIKE = 7;
   ILIKE = 8;
   NOT_ILIKE = 9;
+  PLUS = 10;
+  MINUS = 11;
+  TIMES = 12;
+  DIV = 13;
+  MOD = 14;
+  AND = 15;
+  OR = 16;
 }

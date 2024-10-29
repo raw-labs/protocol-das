@@ -1,0 +1,48 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.services";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.services;
+
+import "com/rawlabs/protocol/das/das.proto";
+import "com/rawlabs/protocol/das/functions.proto";
+import "com/rawlabs/protocol/raw/values.proto";
+
+service FunctionsService {
+
+  rpc GetFunctionDefinitions (GetFunctionDefinitionsRequest) returns (GetFunctionDefinitionsResponse);
+
+  rpc ExecuteFunction (ExecuteFunctionRequest) returns (ExecuteFunctionResponse);
+
+}
+
+message GetFunctionDefinitionsRequest {
+  DASId dasId = 1;
+}
+
+message GetFunctionDefinitionsResponse {
+  repeated FunctionDefinition functionDefinitions = 1;
+}
+
+message ExecuteFunctionRequest {
+  DASId dasId = 1;
+  string functionName = 2;
+  repeated Argument arguments = 3;
+}
+
+message ExecuteFunctionResponse {
+  com.rawlabs.protocol.raw.Value result = 1;
+}

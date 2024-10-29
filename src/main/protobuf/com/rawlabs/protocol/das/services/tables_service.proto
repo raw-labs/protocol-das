@@ -19,9 +19,12 @@ package com.rawlabs.protocol.das.services;
 
 import "com/rawlabs/protocol/das/das.proto";
 import "com/rawlabs/protocol/das/tables.proto";
+import "com/rawlabs/protocol/das/rows.proto";
 import "com/rawlabs/protocol/raw/values.proto";
 
-service TableUpdateService {
+service TablesService {
+
+  rpc GetTableDefinitions (GetTableDefinitionsRequest) returns (GetTableDefinitionsResponse);
 
   rpc UniqueColumn (UniqueColumnRequest) returns (UniqueColumnResponse);
 
@@ -35,6 +38,14 @@ service TableUpdateService {
 
   rpc Delete (DeleteRequest) returns (DeleteResponse);
 
+}
+
+message GetTableDefinitionsRequest {
+  DASId dasId = 1;
+}
+
+message GetTableDefinitionsResponse {
+  repeated TableDefinition definitions = 1;
 }
 
 message UniqueColumnRequest {

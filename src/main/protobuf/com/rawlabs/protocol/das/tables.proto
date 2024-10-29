@@ -17,7 +17,6 @@ option java_multiple_files = true;
 
 package com.rawlabs.protocol.das;
 
-import "com/rawlabs/protocol/raw/values.proto";
 import "com/rawlabs/protocol/raw/types.proto";
 
 message TableId {
@@ -35,34 +34,4 @@ message ColumnDefinition {
     string name = 1;
     optional string description = 2;
     com.rawlabs.protocol.raw.Type type = 3;
-}
-
-message Rows {
-    repeated Row rows = 1;
-}
-
-message Row {
-    repeated Column columns = 1;
-}
-
-message Column {
-    string name = 1;
-    com.rawlabs.protocol.raw.Value data = 2;
-}
-
-message SortKeys {
-    repeated SortKey sortKeys = 1;
-}
-
-message SortKey {
-    string name = 1;
-    int32 pos = 2;
-    bool isReversed = 3;
-    bool nullsFirst = 4;
-    string collate = 5;
-}
-
-message PathKey {
-    repeated string keyColumns = 1;
-    uint64 expectedRows = 2;
 }

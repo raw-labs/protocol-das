@@ -34,3 +34,8 @@ message ParameterDefinition {
     com.rawlabs.protocol.raw.Type dataType = 3;
     optional com.rawlabs.protocol.raw.Value defaultValue = 4;
 }
+
+message Argument {
+    com.rawlabs.protocol.raw.Value value = 1;
+    optional string name = 2;
+}

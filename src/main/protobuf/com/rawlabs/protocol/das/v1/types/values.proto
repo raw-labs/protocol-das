@@ -1,0 +1,128 @@
+/**
+ * Copyright 2024 RAW Labs S.A.
+ * All rights reserved.
+ *
+ * This source code is the property of RAW Labs S.A. It contains
+ * proprietary and confidential information that is protected by applicable
+ * intellectual property and other laws. Unauthorized use, reproduction,
+ * or distribution of this code, or any portion of it, may result in severe
+ * civil and criminal penalties and will be prosecuted to the maximum
+ * extent possible under the law.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.v1";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.v1;
+
+message Value {
+  oneof value {
+    ValueNull null = 1;
+    ValueByte byte = 2;
+    ValueShort short = 3;
+    ValueInt int = 4;
+    ValueLong long = 5;
+    ValueFloat float = 6;
+    ValueDouble double = 7;
+    ValueDecimal decimal = 8;
+    ValueBool bool = 9;
+    ValueString string = 10;
+    ValueBinary binary = 11;
+    ValueDate date = 12;
+    ValueTime time = 13;
+    ValueTimestamp timestamp = 14;
+    ValueInterval interval = 15;
+    ValueRecord record = 16;
+    ValueList list = 17;
+  }
+}
+
+message ValueNull {}
+
+message ValueByte {
+  int32 v = 1;
+}
+
+message ValueShort {
+  int32 v = 1;
+}
+
+message ValueInt {
+  int32 v = 1;
+}
+
+message ValueLong {
+  int64 v = 1;
+}
+
+message ValueFloat {
+  float v = 1;
+}
+
+message ValueDouble {
+  double v = 1;
+}
+
+message ValueDecimal {
+  string v = 1;
+}
+
+message ValueBool {
+  bool v = 1;
+}
+
+message ValueString {
+  string v = 1;
+}
+
+message ValueBinary {
+  bytes v = 1;
+}
+
+message ValueDate {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+}
+
+message ValueTime {
+  int32 hour = 1;
+  int32 minute = 2;
+  int32 second = 3;
+  int32 nano = 4;
+}
+
+message ValueTimestamp {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+  int32 hour = 4;
+  int32 minute = 5;
+  int32 second = 6;
+  int32 nano = 7;
+}
+
+message ValueInterval {
+  int32 years = 1;
+  int32 months = 2;
+  int32 days = 3;
+  int32 hours = 4;
+  int32 minutes = 5;
+  int32 seconds = 6;
+  int32 micros = 7;
+}
+
+message ValueRecord {
+  repeated ValueRecordAttr atts = 1;
+}
+
+message ValueRecordAttr {
+  string name = 1;
+  Value value = 2;
+}
+
+message ValueList {
+  repeated Value values = 1;
+}

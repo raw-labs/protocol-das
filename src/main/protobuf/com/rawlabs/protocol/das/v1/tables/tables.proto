@@ -1,0 +1,51 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.v1";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.v1;
+
+import "com/rawlabs/protocol/das/v1/types/types.proto";
+import "com/rawlabs/protocol/das/v1/types/values.proto";
+
+message TableId {
+    string name = 1;
+}
+
+message TableDefinition {
+    TableId tableId = 1;
+    optional string description = 2;
+    repeated ColumnDefinition columns = 3;
+    optional int32 startup_cost = 4;
+}
+
+message ColumnDefinition {
+    string name = 1;
+    optional string description = 2;
+    Type type = 3;
+}
+
+message Rows {
+    repeated Row rows = 1;
+}
+
+message Row {
+    repeated Column columns = 1;
+}
+
+message Column {
+    string name = 1;
+    Value data = 2;
+}

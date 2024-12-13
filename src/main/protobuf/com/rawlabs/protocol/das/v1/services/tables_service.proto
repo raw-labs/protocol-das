@@ -1,0 +1,202 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.v1.services";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.v1.services;
+
+import "com/rawlabs/protocol/das/v1/common/das.proto";
+import "com/rawlabs/protocol/das/v1/common/environment.proto";
+import "com/rawlabs/protocol/das/v1/tables/tables.proto";
+import "com/rawlabs/protocol/das/v1/types/values.proto";
+import "com/rawlabs/protocol/das/v1/filters/quals.proto";
+
+service TablesService {
+
+    rpc GetTableDefinitions (GetTableDefinitionsRequest) returns (GetTableDefinitionsResponse);
+
+    rpc GetTableSizeEstimate (GetTableSizeEstimateRequest) returns (GetTableSizeEstimateResponse);
+
+    rpc GetTableSortOrders (GetTableSortOrdersRequest) returns (GetTableSortOrdersResponse);
+
+    rpc GetTablePathKeys (GetTablePathKeysRequest) returns (GetTablePathKeysResponse);
+
+    rpc ExplainTable (ExplainTableRequest) returns (ExplainTableResponse);
+
+    rpc ExecuteTable (ExecuteTableRequest) returns (stream Rows);
+
+    rpc GetTableUniqueColumn (GetTableUniqueColumnRequest) returns (GetTableUniqueColumnResponse);
+
+    rpc InsertTable (InsertTableRequest) returns (InsertTableResponse);
+
+    rpc GetBulkInsertTableSize (GetBulkInsertTableSizeRequest) returns (GetBulkInsertTableSizeResponse);
+
+    rpc BulkInsertTable (BulkInsertTableRequest) returns (BulkInsertTableResponse);
+
+    rpc UpdateTable (UpdateTableRequest) returns (UpdateTableResponse);
+
+    rpc DeleteTable (DeleteTableRequest) returns (DeleteTableResponse);
+
+}
+
+message GetTableDefinitionsRequest {
+    DASId das_id = 1;
+    optional Environment env = 99;
+}
+
+message GetTableDefinitionsResponse {
+    repeated TableDefinition definitions = 1;
+}
+
+message GetTableSizeEstimateRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    repeated Qual quals = 3;
+    repeated string columns = 4;
+    optional Environment env = 99;
+}
+
+message GetTableSizeEstimateResponse {
+    uint64 rows = 1;
+    uint32 bytes = 2;
+}
+
+message GetTableSortOrdersRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    SortKeys sort_keys = 3;
+    optional Environment env = 99;
+}
+
+message GetTableSortOrdersResponse {
+    SortKeys sort_keys = 1;
+}
+
+message SortKeys {
+    repeated SortKey sort_keys = 1;
+}
+
+message SortKey {
+    string name = 1;
+    int32 pos = 2;
+    bool is_reversed = 3;
+    bool nulls_first = 4;
+    string collate = 5;
+}
+
+message GetTablePathKeysRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    optional Environment env = 99;
+}
+
+message GetTablePathKeysResponse {
+    repeated PathKey path_keys = 1;
+}
+
+message PathKey {
+    repeated string key_columns = 1;
+    uint64 expected_rows = 2;
+}
+
+message ExplainTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    repeated Qual quals = 3;
+    repeated string columns = 4;
+    optional SortKeys sort_keys = 5;
+    optional uint64 limit = 6;
+    bool verbose = 7;
+    optional Environment env = 99;
+}
+
+message ExplainTableResponse {
+    repeated string stmts = 1;
+}
+
+message ExecuteTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    repeated Qual quals = 3;
+    repeated string columns = 4;
+    optional SortKeys sort_keys = 5;
+    optional uint64 limit = 6;
+    optional string plan_id = 7;
+    optional Environment env = 99;
+}
+
+message GetTableUniqueColumnRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    optional Environment env = 99;
+}
+
+message GetTableUniqueColumnResponse {
+    string column = 1;
+}
+
+message InsertTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    Row values = 3;
+    optional Environment env = 99;
+}
+
+message InsertTableResponse {
+    Row row = 1;
+}
+
+message GetBulkInsertTableSizeRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    optional Environment env = 99;
+}
+
+message GetBulkInsertTableSizeResponse {
+    uint32 size = 1;
+}
+
+message BulkInsertTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    repeated Row values = 3;
+    optional Environment env = 99;
+}
+
+message BulkInsertTableResponse {
+    repeated Row rows = 1;
+}
+
+message UpdateTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    Value row_id = 3;
+    Row new_values = 4;
+    optional Environment env = 99;
+}
+
+message UpdateTableResponse {
+    Row row = 1;
+}
+
+message DeleteTableRequest {
+    DASId das_id = 1;
+    TableId table_id = 2;
+    Value row_id = 3;
+    optional Environment env = 99;
+}
+
+message DeleteTableResponse {
+}

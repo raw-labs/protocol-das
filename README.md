@@ -3,6 +3,15 @@
 
 This repository contains the protobuf definitions and gRPC service interfaces for the Data Access Service (DAS) used by RAW Labs. The protocol defines a set of services and message types that allow querying, modifying, and managing data across various data sources via gRPC.
 
+
+RECORDS CANNOT BE EMPTY
+
+MAX SIZE FOR STRING AND BINARY
+
+
+
+
+
 ## Features
 
 - Implements gRPC services to interact with DAS, including:
@@ -16,18 +25,20 @@ This repository contains the protobuf definitions and gRPC service interfaces fo
 ### RegistrationService
 The `RegistrationService` handles the registration of DAS instances. It provides endpoints to register a new DAS and manage its lifecycle. Key message types include `RegisterRequest` and `RegisterResponse`.
 
-For more details, see [registration_service.proto](src/main/protobuf/com/rawlabs/protocol/das/services/registration_service.proto).
+For more details, see [registration_service.proto](src/main/protobuf/com/rawlabs/protocol/das/v1/services/registration_service.proto).
 
 ### TablesService
 The `TablesService` provides table-related operations for DAS-compliant data sources, including:
 
-- `GetDefinitions`: Retrieves table schema definitions.
-- `Execute`: Streams results from a DAS query.
+- `GetTableDefinitions`: Retrieves table schema definitions.
+- `ExecuteTable`: Streams results from a DAS query.
 - `Insert`, `Update`, `Delete`: CRUD operations on tables.
 - `GetRelSize`: Returns size and row count of a table.
 - Other auxiliary operations like sorting and path keys.
 
-For more details, see [tables_service.proto](src/main/protobuf/com/rawlabs/protocol/das/services/tables_service.proto).
+For more details, see [tables_service.proto](src/main/protobuf/com/rawlabs/protocol/das/v1/services/tables_service.proto).
+
+
 
 ## Building the Project
 

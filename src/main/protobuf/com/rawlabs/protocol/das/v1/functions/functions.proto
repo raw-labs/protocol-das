@@ -12,25 +12,30 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das";
+option java_package = "com.rawlabs.protocol.das.v1";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das;
+package com.rawlabs.protocol.das.v1;
 
-import "com/rawlabs/protocol/raw/values.proto";
-import "com/rawlabs/protocol/raw/types.proto";
+import "com/rawlabs/protocol/das/v1/types/types.proto";
+import "com/rawlabs/protocol/das/v1/types/values.proto";
+
+message FunctionId {
+    string name = 1;
+}
 
 message FunctionDefinition {
-    string name = 1;
+    FunctionId function_id = 1;
     optional string description = 2;
-    repeated ParameterDefinition parameters = 3;
-    com.rawlabs.protocol.raw.Type returnType = 4;
-    optional string returnDescription = 5;
+    repeated ParameterDefinition params = 3;
+    Type return_type = 4;
+    optional string return_description = 5;
 }
 
 message ParameterDefinition {
-    string name = 1;
+    FunctionId function_id = 1;
     optional string description = 2;
-    com.rawlabs.protocol.raw.Type dataType = 3;
-    optional com.rawlabs.protocol.raw.Value defaultValue = 4;
+    string name = 3;
+    Type type = 4;
+    optional Value default_value = 5;
 }

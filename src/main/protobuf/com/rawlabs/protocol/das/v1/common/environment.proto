@@ -12,16 +12,11 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das";
+option java_package = "com.rawlabs.protocol.das.v1";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das;
+package com.rawlabs.protocol.das.v1;
 
-message DASId {
-    string id = 1;
-}
-
-message DASDefinition {
-    string type = 1;
-    map<string, string> options = 2;
+message Environment {
+  map<string, string> env = 2;
 }

@@ -1,0 +1,113 @@
+/**
+ * Copyright 2024 RAW Labs S.A.
+ * All rights reserved.
+ *
+ * This source code is the property of RAW Labs S.A. It contains
+ * proprietary and confidential information that is protected by applicable
+ * intellectual property and other laws. Unauthorized use, reproduction,
+ * or distribution of this code, or any portion of it, may result in severe
+ * civil and criminal penalties and will be prosecuted to the maximum
+ * extent possible under the law.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.v1";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.v1;
+
+message Type {
+  oneof type {
+    AnyType any = 1;
+    ByteType byte = 2;
+    ShortType short = 3;
+    IntType int = 4;
+    LongType long = 5;
+    FloatType float = 6;
+    DoubleType double = 7;
+    DecimalType decimal = 8;
+    BoolType bool = 9;
+    StringType string = 10;
+    BinaryType binary = 11;
+    DateType date = 12;
+    TimeType time = 13;
+    TimestampType timestamp = 14;
+    IntervalType interval = 15;
+    RecordType record = 16;
+    ListType list = 17;
+  }
+}
+
+message AnyType {}
+
+message ByteType {
+  bool nullable = 1;
+}
+
+message ShortType {
+  bool nullable = 1;
+}
+
+message IntType {
+  bool nullable = 1;
+}
+
+message LongType {
+  bool nullable = 1;
+}
+
+message FloatType {
+  bool nullable = 1;
+}
+
+message DoubleType {
+  bool nullable = 1;
+}
+
+message DecimalType {
+  bool nullable = 1;
+}
+
+message BoolType {
+  bool nullable = 1;
+}
+
+message StringType {
+  bool nullable = 1;
+}
+
+message BinaryType {
+  bool nullable = 1;
+}
+
+message DateType {
+  bool nullable = 1;
+}
+
+message TimeType {
+  bool nullable = 1;
+}
+
+message TimestampType {
+  bool nullable = 1;
+}
+
+message IntervalType {
+  bool nullable = 1;
+}
+
+message RecordType {
+  repeated AttrType atts = 1;
+  bool nullable = 2;
+}
+
+message AttrType {
+  string idn = 1;
+  Type tipe = 2;
+}
+
+message ListType {
+  Type inner_type = 1;
+  bool nullable = 2;
+}

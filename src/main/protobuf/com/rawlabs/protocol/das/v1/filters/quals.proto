@@ -12,22 +12,16 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das.services";
+option java_package = "com.rawlabs.protocol.das.v1";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das.services;
+package com.rawlabs.protocol.das.v1;
 
-import "com/rawlabs/protocol/das/das.proto";
+import "com/rawlabs/protocol/das/v1/types/values.proto";
+import "com/rawlabs/protocol/das/v1/filters/operators.proto";
 
-service RegistrationService {
-    rpc Register (RegisterRequest) returns (DASId);
-    rpc Unregister (DASId) returns (UnregisterResponse);
-}
-
-message RegisterRequest {
-    DASDefinition definition = 1;
-    optional DASId id = 2;
-}
-
-message UnregisterResponse {
+message Qual {
+  string name = 1;
+  Operator operator = 2;
+  Value value = 3;
 }

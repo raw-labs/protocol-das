@@ -18,15 +18,36 @@ option java_multiple_files = true;
 package com.rawlabs.protocol.das.v1.services;
 
 import "com/rawlabs/protocol/das/v1/common/das.proto";
+import "com/rawlabs/protocol/das/v1/types/types.proto";
+import "com/rawlabs/protocol/das/v1/query/operators.proto";
 
 service RegistrationService {
-    rpc Register (RegisterRequest) returns (DASId);
-    rpc Unregister (DASId) returns (UnregisterResponse);
+    rpc Register (RegisterRequest) returns (com.rawlabs.protocol.das.v1.common.DASId);
+
+    rpc OperationsSupported (com.rawlabs.protocol.das.v1.common.DASId) returns (OperationsSupportedResponse);
+
+    rpc Unregister (com.rawlabs.protocol.das.v1.common.DASId) returns (UnregisterResponse);
 }
 
 message RegisterRequest {
-    DASDefinition definition = 1;
-    optional DASId id = 2;
+    com.rawlabs.protocol.das.v1.common.DASDefinition definition = 1;
+    optional com.rawlabs.protocol.das.v1.common.DASId id = 2;
+}
+
+message OperationsSupportedResponse {
+    repeated FunctionSupported functionsSupported = 4;
+    repeated OperatorSupported operatorsSupported = 5;
+}
+
+message FunctionSupported {
+    string name = 1;
+    repeated com.rawlabs.protocol.das.v1.types.Type parameters = 2;
+}
+
+message OperatorSupported {
+    com.rawlabs.protocol.das.v1.query.Operator operator = 1;
+    com.rawlabs.protocol.das.v1.types.Type lhs = 2;
+    com.rawlabs.protocol.das.v1.types.Type rhs = 3;
 }
 
 message UnregisterResponse {

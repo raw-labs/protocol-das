@@ -31,33 +31,33 @@ service FunctionsService {
 }
 
 message GetFunctionDefinitionsRequest {
-  DASId das_id = 1;
-  optional Environment env = 99;
+  com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+  optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message GetFunctionDefinitionsResponse {
-  repeated FunctionDefinition definitions = 1;
+  repeated com.rawlabs.protocol.das.v1.functions.FunctionDefinition definitions = 1;
 }
 
 message ExecuteFunctionRequest {
-  DASId das_id = 1;
-  FunctionId function_id = 2;
+  com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+  com.rawlabs.protocol.das.v1.functions.FunctionId function_id = 2;
   repeated Argument args = 3;
-  optional Environment env = 99;
+  optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message Argument {
   oneof value {
-    Value arg = 1;
+    com.rawlabs.protocol.das.v1.types.Value arg = 1;
     NamedArgument named_arg = 2;
   }
 }
 
 message NamedArgument {
   string name = 1;
-  Value value = 2;
+  com.rawlabs.protocol.das.v1.types.Value value = 2;
 }
 
 message ExecuteFunctionResponse {
-  Value output = 1;
+  com.rawlabs.protocol.das.v1.types.Value output = 1;
 }

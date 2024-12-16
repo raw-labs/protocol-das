@@ -15,13 +15,13 @@ syntax = "proto3";
 option java_package = "com.rawlabs.protocol.das.v1";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das.v1;
+package com.rawlabs.protocol.das.v1.query;
 
 import "com/rawlabs/protocol/das/v1/types/values.proto";
-import "com/rawlabs/protocol/das/v1/filters/operators.proto";
+import "com/rawlabs/protocol/das/v1/query/operators.proto";
 
 message Qual {
   string name = 1;
   Operator operator = 2;
-  Value value = 3;
+  com.rawlabs.protocol.das.v1.types.Value value = 3;
 }

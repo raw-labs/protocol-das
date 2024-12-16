@@ -15,7 +15,7 @@ syntax = "proto3";
 option java_package = "com.rawlabs.protocol.das.v1";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das.v1;
+package com.rawlabs.protocol.das.v1.tables;
 
 import "com/rawlabs/protocol/das/v1/types/types.proto";
 import "com/rawlabs/protocol/das/v1/types/values.proto";
@@ -25,7 +25,7 @@ message TableId {
 }
 
 message TableDefinition {
-    TableId tableId = 1;
+    TableId table_id = 1;
     optional string description = 2;
     repeated ColumnDefinition columns = 3;
     optional int32 startup_cost = 4;
@@ -34,7 +34,7 @@ message TableDefinition {
 message ColumnDefinition {
     string name = 1;
     optional string description = 2;
-    Type type = 3;
+    com.rawlabs.protocol.das.v1.types.Type type = 3;
 }
 
 message Rows {
@@ -47,5 +47,5 @@ message Row {
 
 message Column {
     string name = 1;
-    Value data = 2;
+    com.rawlabs.protocol.das.v1.types.Value data = 2;
 }

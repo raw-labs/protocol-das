@@ -21,21 +21,17 @@ import "com/rawlabs/protocol/das/v1/common/das.proto";
 import "com/rawlabs/protocol/das/v1/common/environment.proto";
 import "com/rawlabs/protocol/das/v1/tables/tables.proto";
 import "com/rawlabs/protocol/das/v1/types/values.proto";
-import "com/rawlabs/protocol/das/v1/filters/quals.proto";
+import "com/rawlabs/protocol/das/v1/query/query.proto";
 
 service TablesService {
 
     rpc GetTableDefinitions (GetTableDefinitionsRequest) returns (GetTableDefinitionsResponse);
 
-    rpc GetTableSizeEstimate (GetTableSizeEstimateRequest) returns (GetTableSizeEstimateResponse);
-
-    rpc GetTableSortOrders (GetTableSortOrdersRequest) returns (GetTableSortOrdersResponse);
-
-    rpc GetTablePathKeys (GetTablePathKeysRequest) returns (GetTablePathKeysResponse);
+    rpc GetTableEstimate (GetTableEstimateRequest) returns (GetTableEstimateResponse);
 
     rpc ExplainTable (ExplainTableRequest) returns (ExplainTableResponse);
 
-    rpc ExecuteTable (ExecuteTableRequest) returns (stream Rows);
+    rpc ExecuteTable (ExecuteTableRequest) returns (stream com.rawlabs.protocol.das.v1.tables.Rows);
 
     rpc GetTableUniqueColumn (GetTableUniqueColumnRequest) returns (GetTableUniqueColumnResponse);
 
@@ -52,74 +48,33 @@ service TablesService {
 }
 
 message GetTableDefinitionsRequest {
-    DASId das_id = 1;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message GetTableDefinitionsResponse {
-    repeated TableDefinition definitions = 1;
+    repeated com.rawlabs.protocol.das.v1.tables.TableDefinition definitions = 1;
 }
 
-message GetTableSizeEstimateRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    repeated Qual quals = 3;
-    repeated string columns = 4;
-    optional Environment env = 99;
+message GetTableEstimateRequest {
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.query.Query query = 3;
+    optional string plan_id = 4;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
-message GetTableSizeEstimateResponse {
+message GetTableEstimateResponse {
     uint64 rows = 1;
     uint32 bytes = 2;
 }
 
-message GetTableSortOrdersRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    SortKeys sort_keys = 3;
-    optional Environment env = 99;
-}
-
-message GetTableSortOrdersResponse {
-    SortKeys sort_keys = 1;
-}
-
-message SortKeys {
-    repeated SortKey sort_keys = 1;
-}
-
-message SortKey {
-    string name = 1;
-    int32 pos = 2;
-    bool is_reversed = 3;
-    bool nulls_first = 4;
-    string collate = 5;
-}
-
-message GetTablePathKeysRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    optional Environment env = 99;
-}
-
-message GetTablePathKeysResponse {
-    repeated PathKey path_keys = 1;
-}
-
-message PathKey {
-    repeated string key_columns = 1;
-    uint64 expected_rows = 2;
-}
-
 message ExplainTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    repeated Qual quals = 3;
-    repeated string columns = 4;
-    optional SortKeys sort_keys = 5;
-    optional uint64 limit = 6;
-    bool verbose = 7;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.query.Query query = 3;
+    optional string plan_id = 4;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message ExplainTableResponse {
@@ -127,20 +82,17 @@ message ExplainTableResponse {
 }
 
 message ExecuteTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    repeated Qual quals = 3;
-    repeated string columns = 4;
-    optional SortKeys sort_keys = 5;
-    optional uint64 limit = 6;
-    optional string plan_id = 7;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.query.Query query = 3;
+    optional string plan_id = 4;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message GetTableUniqueColumnRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message GetTableUniqueColumnResponse {
@@ -148,20 +100,20 @@ message GetTableUniqueColumnResponse {
 }
 
 message InsertTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    Row values = 3;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.tables.Row values = 3;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message InsertTableResponse {
-    Row row = 1;
+    com.rawlabs.protocol.das.v1.tables.Row row = 1;
 }
 
 message GetBulkInsertTableSizeRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message GetBulkInsertTableSizeResponse {
@@ -169,33 +121,33 @@ message GetBulkInsertTableSizeResponse {
 }
 
 message BulkInsertTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    repeated Row values = 3;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    repeated com.rawlabs.protocol.das.v1.tables.Row values = 3;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message BulkInsertTableResponse {
-    repeated Row rows = 1;
+    repeated com.rawlabs.protocol.das.v1.tables.Row rows = 1;
 }
 
 message UpdateTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    Value row_id = 3;
-    Row new_values = 4;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.types.Value row_id = 3;
+    com.rawlabs.protocol.das.v1.tables.Row new_values = 4;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message UpdateTableResponse {
-    Row row = 1;
+    com.rawlabs.protocol.das.v1.tables.Row row = 1;
 }
 
 message DeleteTableRequest {
-    DASId das_id = 1;
-    TableId table_id = 2;
-    Value row_id = 3;
-    optional Environment env = 99;
+    com.rawlabs.protocol.das.v1.common.DASId das_id = 1;
+    com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
+    com.rawlabs.protocol.das.v1.types.Value row_id = 3;
+    optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 
 message DeleteTableResponse {

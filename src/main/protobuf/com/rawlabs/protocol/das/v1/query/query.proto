@@ -12,7 +12,7 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das.v1";
+option java_package = "com.rawlabs.protocol.das.v1.query";
 option java_multiple_files = true;
 
 package com.rawlabs.protocol.das.v1.query;
@@ -22,18 +22,18 @@ import "com/rawlabs/protocol/das/v1/query/quals.proto";
 message Query {
   repeated Qual quals = 1;
   repeated string columns = 2;
-  optional SortKeys sort_keys = 3;
-  optional uint64 offset = 4;
-  optional uint64 limit = 5;
-  optional bool distinct = 6;
-}
-
-message SortKeys {
-  repeated SortKey sort_keys = 1;
+  repeated SortKey sort_keys = 3;
 }
 
 message SortKey {
   string name = 1;
-  bool is_reversed = 2;
-  bool nulls_first = 3;
+  uint32 pos = 2;
+  bool is_reversed = 3;
+  bool nulls_first = 4;
+  string collate = 5;
+}
+
+message PathKey {
+  repeated string key_columns = 1;
+  uint64 expected_rows = 2;
 }

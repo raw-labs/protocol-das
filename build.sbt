@@ -22,27 +22,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val buildSettings = Seq(
-  scalaVersion := "2.12.18",
-  javacOptions ++= Seq(
-    "-source",
-    "21",
-    "-target",
-    "21"
-  ),
-  scalacOptions ++= Seq(
-    "-feature",
-    "-unchecked",
-    // When compiling in encrypted drives in Linux, the max size of a name is reduced to around 140
-    // https://unix.stackexchange.com/a/32834
-    "-Xmax-classfile-name",
-    "140",
-    "-deprecation",
-    "-Xlint:-stars-align,_",
-    "-Ywarn-dead-code",
-    "-Ywarn-macros:after", // Fix for false warning of unused implicit arguments in traits/interfaces.
-    "-Ypatmat-exhaust-depth",
-    "160"
-  )
+  scalaVersion := "2.13.15"
 )
 
 lazy val compileSettings = Seq(
@@ -52,32 +32,13 @@ lazy val compileSettings = Seq(
   Compile / packageDoc / publishArtifact := false,
   Compile / packageBin / packageOptions += Package.ManifestAttributes(
     "Automatic-Module-Name" -> name.value.replace('-', '.')
-  ),
-  // Ensure Java annotations get compiled first, so that they are accessible from Scala.
-  compileOrder := CompileOrder.JavaThenScala
+  )
 )
 
 lazy val testSettings = Seq(
   // Ensuring tests are run in a forked JVM for isolation.
   Test / fork := true,
-  // Disabling parallel execution of tests.
-  //Test / parallelExecution := false,
-  // Pass system properties starting with "raw." to the forked JVMs.
-  Test / javaOptions ++= {
-    import scala.collection.JavaConverters._
-    val props = System.getProperties
-    props
-      .stringPropertyNames()
-      .asScala
-      .filter(_.startsWith("raw."))
-      .map(key => s"-D$key=${props.getProperty(key)}")
-      .toSeq
-  },
-  // Set up heap dump options for out-of-memory errors.
-  Test / javaOptions ++= Seq(
-    "-XX:+HeapDumpOnOutOfMemoryError",
-    s"-XX:HeapDumpPath=${Paths.get(sys.env.getOrElse("SBT_FORK_OUTPUT_DIR", "target/test-results")).resolve("heap-dumps")}"
-  ),
+  // Required for publishing test artifacts.
   Test / publishArtifact := true
 )
 

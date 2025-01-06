@@ -23,11 +23,9 @@ import "com/rawlabs/protocol/das/v1/functions/functions.proto";
 import "com/rawlabs/protocol/das/v1/types/values.proto";
 
 service FunctionsService {
-
   rpc GetFunctionDefinitions (GetFunctionDefinitionsRequest) returns (GetFunctionDefinitionsResponse);
 
   rpc ExecuteFunction (ExecuteFunctionRequest) returns (ExecuteFunctionResponse);
-
 }
 
 message GetFunctionDefinitionsRequest {

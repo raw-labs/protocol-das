@@ -110,6 +110,10 @@ message ExecuteTableRequest {
     com.rawlabs.protocol.das.v1.tables.TableId table_id = 2;
     com.rawlabs.protocol.das.v1.query.Query query = 3;
     optional string plan_id = 4;
+    // Maximum size in bytes for each batch of query results.
+    uint32 max_batch_size_bytes = 5;
+    // Maximum allowable age of an existing cache to consider for reuse.
+    uint32 max_cache_age_seconds = 6;
     optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 

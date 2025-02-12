@@ -23,6 +23,7 @@ message Query {
   repeated Qual quals = 1;
   repeated string columns = 2;
   repeated SortKey sort_keys = 3;
+  optional uint64 limit = 4;
 }
 
 message SortKey {

@@ -17,8 +17,6 @@ option java_multiple_files = true;
 
 package com.rawlabs.protocol.das.v1.services;
 
-import "google/protobuf/duration.proto";
-
 import "com/rawlabs/protocol/das/v1/common/das.proto";
 import "com/rawlabs/protocol/das/v1/common/environment.proto";
 import "com/rawlabs/protocol/das/v1/tables/tables.proto";
@@ -116,7 +114,6 @@ message ExecuteTableRequest {
     optional uint32 max_batch_size_bytes = 5;
     // Maximum allowable age of an existing cache to consider for reuse.
     // When missing, caches are ignored.
-    optional google.protobuf.Duration max_cache_age = 6;
     optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 

@@ -71,7 +71,6 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       // Required for gRPC Protobuf
       "javax.annotation" % "javax.annotation-api" % "1.3.2",
-      "com.google.protobuf" % "protobuf-java" % "3.25.4" % "protobuf", // so it's on the ProtobufConfig classpath
       "io.grpc" % "grpc-netty" % (ProtobufConfig / protobufGrpcVersion).value,
       "io.grpc" % "grpc-protobuf" % (ProtobufConfig / protobufGrpcVersion).value,
       "io.grpc" % "grpc-stub" % (ProtobufConfig / protobufGrpcVersion).value

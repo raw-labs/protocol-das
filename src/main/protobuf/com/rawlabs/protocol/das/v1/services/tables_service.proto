@@ -112,8 +112,6 @@ message ExecuteTableRequest {
     optional string plan_id = 4;
     // Maximum size in bytes for each batch of query results.
     optional uint32 max_batch_size_bytes = 5;
-    // Maximum allowable age of an existing cache to consider for reuse.
-    // When missing, caches are ignored.
     optional com.rawlabs.protocol.das.v1.common.Environment env = 99;
 }
 

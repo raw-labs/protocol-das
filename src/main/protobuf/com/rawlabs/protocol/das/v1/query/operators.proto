@@ -1,0 +1,38 @@
+/*
+ * Copyright 2024 RAW Labs S.A.
+ *
+ * Use of this software is governed by the Business Source License
+ * included in the file licenses/BSL.txt.
+ *
+ * As of the Change Date specified in that file, in accordance with
+ * the Business Source License, use of this software will be governed
+ * by the Apache License, Version 2.0, included in the file
+ * licenses/APL.txt.
+ */
+
+syntax = "proto3";
+
+option java_package = "com.rawlabs.protocol.das.v1.query";
+option java_multiple_files = true;
+
+package com.rawlabs.protocol.das.v1.query;
+
+enum Operator {
+  EQUALS = 0;
+  NOT_EQUALS = 1;
+  LESS_THAN = 2;
+  LESS_THAN_OR_EQUAL = 3;
+  GREATER_THAN = 4;
+  GREATER_THAN_OR_EQUAL = 5;
+  LIKE = 6;
+  NOT_LIKE = 7;
+  ILIKE = 8;
+  NOT_ILIKE = 9;
+  PLUS = 10;
+  MINUS = 11;
+  TIMES = 12;
+  DIV = 13;
+  MOD = 14;
+  AND = 15;
+  OR = 16;
+}

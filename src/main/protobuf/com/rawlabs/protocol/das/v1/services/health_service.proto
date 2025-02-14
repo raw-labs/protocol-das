@@ -12,12 +12,13 @@
 
 syntax = "proto3";
 
-option java_package = "com.rawlabs.protocol.das.services";
+option java_package = "com.rawlabs.protocol.das.v1.services";
 option java_multiple_files = true;
 
-package com.rawlabs.protocol.das.services;
+package com.rawlabs.protocol.das.v1.services;
 
 service HealthCheckService {
+  // Check the health of the service.
   rpc Check (HealthCheckRequest) returns (HealthCheckResponse);
 }
 

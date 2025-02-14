@@ -3,15 +3,6 @@
 
 This repository contains the protobuf definitions and gRPC service interfaces for the Data Access Service (DAS) used by RAW Labs. The protocol defines a set of services and message types that allow querying, modifying, and managing data across various data sources via gRPC.
 
-
-RECORDS CANNOT BE EMPTY
-
-MAX SIZE FOR STRING AND BINARY
-
-
-
-
-
 ## Features
 
 - Implements gRPC services to interact with DAS, including:

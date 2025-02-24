@@ -132,6 +132,15 @@ service HealthCheckService {
 
 ---
 
+## gRPC Status Codes
+
+The following gRPC Status Code must be handled by clients of the DAS Protocol:
+* `UNAVAILABLE`: When a DAS server is not available temporarily, which can occur during a rolling upgrade, the DAS client should retry the call for a period of time.
+* `UNAUTHENTICATED` or `PERMISSION_DENIED`: When a DAS server is not able to access a data source, it may return an unauthenticated or permission denied response, indicating that additional options configuration is needed.
+* `NOT_FOUND`: When a DAS server does not find the requested "DAS id", which can occur after a service restart, this response can be sent; the client should then re-register the DAS.
+
+---
+
 ## File Organization
 
 All protobuf definitions live under [`src/main/protobuf/com/rawlabs/protocol/das/v1/`](./src/main/protobuf/com/rawlabs/protocol/das/v1/).

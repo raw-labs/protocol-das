@@ -182,8 +182,6 @@ The DAS Protocol defines a set of types under [`types.proto`](./src/main/protobu
   ```
   For example, a list of `IntType` or a list of `RecordType` elements.
 
----
-
 By defining these types in protobuf, DAS ensures a language-agnostic, strongly typed model for data exchange. This type system underlies the DAS schema-discovery features, query operations, and function signatures, offering consistent typing across different clients and servers.
 
 ---

@@ -134,10 +134,33 @@ service HealthCheckService {
 
 ## gRPC Status Codes
 
-The following gRPC Status Code must be handled by clients of the DAS Protocol:
-* `UNAVAILABLE`: When a DAS server is not available temporarily, which can occur during a rolling upgrade, the DAS client should retry the call for a period of time.
-* `UNAUTHENTICATED` or `PERMISSION_DENIED`: When a DAS server is not able to access a data source, it may return an unauthenticated or permission denied response, indicating that additional options configuration is needed.
-* `NOT_FOUND`: When a DAS server does not find the requested "DAS id", which can occur after a service restart, this response can be sent; the client should then re-register the DAS.
+The DAS Protocol relies on specific gRPC status codes to convey outcomes. Below are guidelines on what each code means, when the DAS server should return it, and how the client should respond.
+
+1. `UNAVAILABLE`
+  * *Server*: Return `UNAVAILABLE` if the DAS server is temporarily unable to handle requests (e.g., during a rolling upgrade or transient failure).
+  * *Client*: On receiving `UNAVAILABLE`, the client should retry the call for a limited period. Consider implementing exponential backoff or a retry strategy to handle this condition gracefully.
+
+2. `NOT_FOUND`
+  * *Server*: Return `NOT_FOUND` if the DAS server cannot find a requested resource (e.g., the DAS ID is unrecognized, possibly after a server restart).
+  * *Client*: On receiving `NOT_FOUND`, re-register the DAS or recreate the resource if appropriate. For example, if the server has lost the DAS registration, the client should invoke RegistrationService.Register again.
+
+4. `UNAUTHENTICATED` / `PERMISSION_DENIED`
+  * *Server*:
+    * `UNAUTHENTICATED` if the client fails to provide valid credentials or the server cannot authenticate the request.
+    * `PERMISSION_DENIED` if the client’s credentials are valid but lack sufficient privileges to access the requested resource.
+  *	*Client*:
+    *	For `UNAUTHENTICATED`, re-authenticate with valid credentials or tokens.
+    *	For `PERMISSION_DENIED`, request additional permissions or contact an administrator to obtain the necessary access rights.
+
+5. `INVALID_ARGUMENT`
+  *	*Server*: Return `INVALID_ARGUMENT` if the request is syntactically correct but contains invalid data (e.g., invalid field values, improper query operators, or out-of-range parameters).
+  *	*Client*: On `INVALID_ARGUMENT`, correct the input and reissue the request. The error details (if provided in the RPC metadata) can help identify which argument caused the failure.
+
+6. `UNIMPLEMENTED`
+  *	*Server*: Return `UNIMPLEMENTED` if a particular functionality is not supported by the DAS server (e.g., if INSERT or UPDATE operations are disabled in the server’s configuration or not implemented at all).
+  *	*Client*: Upon receiving `UNIMPLEMENTED`, fall back to alternative methods or notify the user that the operation is not available. Clients should not retry the same request unless there is a reason to believe support might be dynamically enabled.
+
+By adhering to these conventions, both server and client implementations of the DAS Protocol can handle edge cases and transient failures more predictably, ensuring a more robust and user-friendly experience.
 
 ---
 

@@ -13,6 +13,8 @@ The **DAS Protocol** is a set of Protocol Buffers (protobuf) and gRPC service de
   - [TablesService](#tablesservice)
   - [FunctionsService](#functionsservice)
   - [HealthCheckService](#healthcheckservice)
+- [Type System](#type-system)
+- [gRPC Status Codes](#grpc-status-codes)
 - [File Organization](#file-organization)
 - [Building](#building)
 - [Using the Generated Code](#using-the-generated-code)
@@ -129,6 +131,60 @@ service HealthCheckService {
   rpc Check (HealthCheckRequest) returns (HealthCheckResponse);
 }
 ```
+
+---
+
+## Type System
+
+The DAS Protocol defines a set of types under [`types.proto`](./src/main/protobuf/com/rawlabs/protocol/das/v1/types/types.proto). At the root is the `Type` message, which uses a `oneof` to represent different categories of data (e.g., `IntType`, `StringType`, `RecordType`, etc.). Each specific type message includes a `nullable` flag indicating whether values of that type can be `NULL`.
+
+### Primitive Types
+
+- **ByteType / ShortType / IntType / LongType**  
+  Integer types of varying precision.  
+- **FloatType / DoubleType / DecimalType**  
+  Floating-point and arbitrary precision decimal numbers.  
+- **BoolType**  
+  Boolean type.  
+- **StringType / BinaryType**  
+  Textual and binary data.  
+- **DateType / TimeType / TimestampType / IntervalType**  
+  Common date/time representations.
+
+### RecordType
+
+- **RecordType** is designed to hold a collection of named fields, each of which has its own `Type`. Fields are described in `AttrType`, which includes `name` and `tipe` (i.e., type).
+
+  ```proto
+  message RecordType {
+    repeated AttrType atts = 1;
+    bool nullable = 2;
+  }
+
+  message AttrType {
+    string name = 1;
+    Type tipe = 2;
+  }
+  ```
+
+- **Empty Fields as an “Open” Record**  
+  While a typical `RecordType` explicitly enumerates all of its fields, **a `RecordType` with zero fields (`atts` repeated field is empty) is treated as a special “open” or “dynamic” record type**. In other words, the record may contain *any* number of fields (including none), with arbitrary names and types—much like a map of `[string => any]`.  
+  This approach reuses the empty record concept to represent a flexible schema. It can be used when the exact structure of the data is unknown or highly variable.
+
+### ListType
+
+- **ListType** represents a homogeneously typed collection:
+  ```proto
+  message ListType {
+    Type inner_type = 1;
+    bool nullable = 2;
+  }
+  ```
+  For example, a list of `IntType` or a list of `RecordType` elements.
+
+---
+
+By defining these types in protobuf, DAS ensures a language-agnostic, strongly typed model for data exchange. This type system underlies the DAS schema-discovery features, query operations, and function signatures, offering consistent typing across different clients and servers.
 
 ---
 

@@ -13,6 +13,8 @@ The **DAS Protocol** is a set of Protocol Buffers (protobuf) and gRPC service de
   - [TablesService](#tablesservice)
   - [FunctionsService](#functionsservice)
   - [HealthCheckService](#healthcheckservice)
+- [Type System](#type-system)
+- [gRPC Status Codes](#grpc-status-codes)
 - [File Organization](#file-organization)
 - [Building](#building)
 - [Using the Generated Code](#using-the-generated-code)
@@ -129,6 +131,90 @@ service HealthCheckService {
   rpc Check (HealthCheckRequest) returns (HealthCheckResponse);
 }
 ```
+
+---
+
+## Type System
+
+The DAS Protocol defines a set of types under [`types.proto`](./src/main/protobuf/com/rawlabs/protocol/das/v1/types/types.proto). At the root is the `Type` message, which uses a `oneof` to represent different categories of data (e.g., `IntType`, `StringType`, `RecordType`, etc.). Each specific type message includes a `nullable` flag indicating whether values of that type can be `NULL`.
+
+### Primitive Types
+
+- **ByteType / ShortType / IntType / LongType**  
+  Integer types of varying precision.  
+- **FloatType / DoubleType / DecimalType**  
+  Floating-point and arbitrary precision decimal numbers.  
+- **BoolType**  
+  Boolean type.  
+- **StringType / BinaryType**  
+  Textual and binary data.  
+- **DateType / TimeType / TimestampType / IntervalType**  
+  Common date/time representations.
+
+### RecordType
+
+- **RecordType** is designed to hold a collection of named fields, each of which has its own `Type`. Fields are described in `AttrType`, which includes `name` and `tipe` (i.e., type).
+
+  ```proto
+  message RecordType {
+    repeated AttrType atts = 1;
+    bool nullable = 2;
+  }
+
+  message AttrType {
+    string name = 1;
+    Type tipe = 2;
+  }
+  ```
+
+- **Empty Fields as an “Open” Record**  
+  While a typical `RecordType` explicitly enumerates all of its fields, **a `RecordType` with zero fields (`atts` repeated field is empty) is treated as a special “open” or “dynamic” record type**. In other words, the record may contain *any* number of fields (including none), with arbitrary names and types—much like a map of `[string => any]`.  
+  This approach reuses the empty record concept to represent a flexible schema. It can be used when the exact structure of the data is unknown or highly variable.
+
+### ListType
+
+- **ListType** represents a homogeneously typed collection:
+  ```proto
+  message ListType {
+    Type inner_type = 1;
+    bool nullable = 2;
+  }
+  ```
+  For example, a list of `IntType` or a list of `RecordType` elements.
+
+By defining these types in protobuf, DAS ensures a language-agnostic, strongly typed model for data exchange. This type system underlies the DAS schema-discovery features, query operations, and function signatures, offering consistent typing across different clients and servers.
+
+---
+
+## gRPC Status Codes
+
+The DAS Protocol relies on specific gRPC status codes to convey outcomes. Below are guidelines on what each code means, when the DAS server should return it, and how the client should respond.
+
+1. `UNAVAILABLE`
+  * *Server*: Return `UNAVAILABLE` if the DAS server is temporarily unable to handle requests (e.g., during a rolling upgrade or transient failure).
+  * *Client*: On receiving `UNAVAILABLE`, the client should retry the call for a limited period. Consider implementing exponential backoff or a retry strategy to handle this condition gracefully.
+
+2. `NOT_FOUND`
+  * *Server*: Return `NOT_FOUND` if the DAS server cannot find a requested resource (e.g., the DAS ID is unrecognized, possibly after a server restart).
+  * *Client*: On receiving `NOT_FOUND`, re-register the DAS or recreate the resource if appropriate. For example, if the server has lost the DAS registration, the client should invoke RegistrationService.Register again.
+
+4. `UNAUTHENTICATED` / `PERMISSION_DENIED`
+  * *Server*:
+    * `UNAUTHENTICATED` if the client fails to provide valid credentials or the server cannot authenticate the request.
+    * `PERMISSION_DENIED` if the client’s credentials are valid but lack sufficient privileges to access the requested resource.
+  *	*Client*:
+    *	For `UNAUTHENTICATED`, re-authenticate with valid credentials or tokens.
+    *	For `PERMISSION_DENIED`, request additional permissions or contact an administrator to obtain the necessary access rights.
+
+5. `INVALID_ARGUMENT`
+  *	*Server*: Return `INVALID_ARGUMENT` if the request is syntactically correct but contains invalid data (e.g., invalid field values, improper query operators, or out-of-range parameters).
+  *	*Client*: On `INVALID_ARGUMENT`, correct the input and reissue the request. The error details (if provided in the RPC metadata) can help identify which argument caused the failure.
+
+6. `UNIMPLEMENTED`
+  *	*Server*: Return `UNIMPLEMENTED` if a particular functionality is not supported by the DAS server (e.g., if INSERT or UPDATE operations are disabled in the server’s configuration or not implemented at all).
+  *	*Client*: Upon receiving `UNIMPLEMENTED`, fall back to alternative methods or notify the user that the operation is not available. Clients should not retry the same request unless there is a reason to believe support might be dynamically enabled.
+
+By adhering to these conventions, both server and client implementations of the DAS Protocol can handle edge cases and transient failures more predictably, ensuring a more robust and user-friendly experience.
 
 ---
 

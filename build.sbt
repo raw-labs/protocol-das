@@ -22,7 +22,9 @@ lazy val commonSettings = Seq(
 )
 
 lazy val buildSettings = Seq(
-  scalaVersion := "2.13.15"
+  scalaVersion := "2.13.15",
+  // Also build against Scala 2.12
+  crossScalaVersions := Seq("2.12.18", "2.13.15")
 )
 
 lazy val compileSettings = Seq(

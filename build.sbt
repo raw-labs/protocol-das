@@ -69,7 +69,7 @@ lazy val root = (project in file("."))
     protobufGrpcEnabled := true,
     // Set fixed versions
     ProtobufConfig / version := "3.25.4",
-    ProtobufConfig / protobufGrpcVersion := "1.62.2",
+    ProtobufConfig / protobufGrpcVersion := "1.69.1",
     libraryDependencies ++= Seq(
       // Required for gRPC Protobuf
       "javax.annotation" % "javax.annotation-api" % "1.3.2",

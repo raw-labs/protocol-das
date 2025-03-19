@@ -19,7 +19,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: sbt publish
-      run: sbt clean publish
+      run: sbt clean +publish
   gh-release:
     needs: [publish]
     runs-on: self-hosted

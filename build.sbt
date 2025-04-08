@@ -76,5 +76,7 @@ lazy val root = (project in file("."))
       "io.grpc" % "grpc-netty" % (ProtobufConfig / protobufGrpcVersion).value,
       "io.grpc" % "grpc-protobuf" % (ProtobufConfig / protobufGrpcVersion).value,
       "io.grpc" % "grpc-stub" % (ProtobufConfig / protobufGrpcVersion).value
-    )
+    ),
+    // Include the protobuf files in the JAR
+    Compile / unmanagedResourceDirectories += (ProtobufConfig / sourceDirectory).value
   )

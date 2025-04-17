@@ -18,5 +18,6 @@ option java_multiple_files = true;
 package com.rawlabs.protocol.das.v1.common;
 
 message Environment {
-  map<string, string> env = 2;
+  repeated string scopes = 1;
+  map<string, string> http_headers = 2;
 }
